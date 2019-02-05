@@ -1,0 +1,49 @@
+version: "2"
+
+services:
+  cassandra-one:
+    privileged: true
+    env_file:
+      - env_one
+    build:
+      context: .
+      dockerfile: dockerfile-node
+    networks:
+      partition-one:
+        ipv4_address: 192.168.15.15
+    depends_on:
+      - router
+
+  cassandra-two:
+    privileged: true
+    env_file:
+      - env_two
+    build:
+      context: .
+      dockerfile: dockerfile-node
+    networks:
+      partition-two:
+        ipv4_address: 192.168.16.16
+    depends_on:
+      - router
+
+  router:
+    networks:
+      partition-one:
+        ipv4_address: 192.168.15.2
+      partition-two:
+        ipv4_address: 192.168.16.2
+    build:
+      context: .
+      dockerfile: dockerfile-router
+
+
+networks:
+  partition-one:
+    ipam:
+      config:
+        - subnet: 192.168.15.0/24
+  partition-two:
+    ipam:
+      config:
+        - subnet: 192.168.16.0/24

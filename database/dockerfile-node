@@ -1,0 +1,6 @@
+FROM cassandra
+
+RUN apt-get update && apt-get install -y iputils-ping
+
+RUN ip r del default
+RUN ip r add default via 192.168.15.2
