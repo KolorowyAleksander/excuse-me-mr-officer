@@ -1,5 +1,9 @@
 package reports;
 
-public class Officer {
 
+public class Officer implements Runnable {
+    @Override
+    public void run() {
+
+    }
 }
