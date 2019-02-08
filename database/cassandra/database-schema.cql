@@ -1,4 +1,4 @@
-create keyspace reports with replication = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
+create keyspace if not exists reports with replication = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
 
 USE reports;
 
@@ -21,8 +21,8 @@ create table if not exists Locks
 
 create table if not exists Logs
 (
-  officerID varchar,
+  officerID varchar PRIMARY KEY,
   reportID  varchar,
   departure timestamp,
   arrival timestamp
-)
+);
