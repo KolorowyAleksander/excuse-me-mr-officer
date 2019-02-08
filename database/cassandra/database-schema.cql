@@ -19,16 +19,10 @@ create table if not exists Locks
   PRIMARY KEY (reportID, officerID)
 );
 
-create table if not exists Officers
-(
-  id varchar PRIMARY KEY,
-  x  int,
-  y  int
-);
-
 create table if not exists Logs
 (
-  sheriffID varchar,
+  officerID varchar,
   reportID  varchar,
   departure timestamp,
+  arrival timestamp
 )
