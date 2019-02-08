@@ -9,17 +9,17 @@ interface ReportAccessor {
     Result<Report> selectAll();
 }
 
-
-@Table(name = Report.tableName, readConsistency = "ONE", writeConsistency = "ONE")
+@Table(name = Report.tableName, readConsistency = Config.CONSISTENCY_ONE, writeConsistency = Config.CONSISTENCY_ONE)
 public class Report {
-    static final String tableName = "report";
+    static final String tableName = "reports";
+
     @PartitionKey
-    @Column
+    @Column(name = "id")
     private String id;
 
-    @Column
+    @Column(name = "positionX")
     private int positionX;
 
-    @Column
+    @Column(name = "positionY")
     private int positionY;
 }
