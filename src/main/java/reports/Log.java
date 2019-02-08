@@ -26,10 +26,10 @@ public class Log {
     static final String tableName = "logs";
 
     @PartitionKey
-    @Column(name = "officerId")
+    @Column(name = "officerID")
     private String officerId;
 
-    @Column(name = "reportId")
+    @Column(name = "reportID")
     private String reportId;
 
     @Column(name = "departure")

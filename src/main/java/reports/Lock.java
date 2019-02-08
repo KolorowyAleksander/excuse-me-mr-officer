@@ -24,7 +24,7 @@ interface LockAccessor {
 public class Lock {
     static final String tableName = "locks";
 
-    static final String reportIdColumnName = "reportId";
+    static final String reportIdColumnName = "reportID";
 
     @PartitionKey
     @Column(name = reportIdColumnName)
