@@ -3,11 +3,12 @@ version: "2"
 services:
   cassandra-one:
     privileged: true
+    cap_add:
+      - NET_ADMIN
     env_file:
-      - env_one
+      - cassandra/env_one
     build:
-      context: .
-      dockerfile: dockerfile-node
+      context: ./cassandra
     networks:
       partition-one:
         ipv4_address: 192.168.15.15
@@ -16,11 +17,12 @@ services:
 
   cassandra-two:
     privileged: true
+    cap_add:
+      - NET_ADMIN
     env_file:
-      - env_two
+      - cassandra/env_two
     build:
-      context: .
-      dockerfile: dockerfile-node
+      context: ./cassandra
     networks:
       partition-two:
         ipv4_address: 192.168.16.16
@@ -28,14 +30,16 @@ services:
       - router
 
   router:
+    privileged: true
+    cap_add:
+      - NET_ADMIN
     networks:
       partition-one:
         ipv4_address: 192.168.15.2
       partition-two:
         ipv4_address: 192.168.16.2
     build:
-      context: .
-      dockerfile: dockerfile-router
+      context: ./router
 
 
 networks:
