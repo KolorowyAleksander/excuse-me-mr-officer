@@ -1,6 +1,5 @@
 package reports;
 
-
 import com.datastax.driver.mapping.Result;
 import com.datastax.driver.mapping.annotations.*;
 import lombok.Data;
@@ -14,7 +13,12 @@ interface LockAccessor {
     Result<Lock> selectByReportId(String reportId);
 }
 
-@Table(name = Lock.tableName, readConsistency = Constants.CONSISTENCY_ONE, writeConsistency = Constants.CONSISTENCY_ONE)
+@Table(
+        keyspace = Config.keyspace,
+        name = Lock.tableName,
+        readConsistency = Constants.CONSISTENCY_ONE,
+        writeConsistency = Constants.CONSISTENCY_ONE
+)
 @NoArgsConstructor
 @Data
 public class Lock {
@@ -31,6 +35,4 @@ public class Lock {
 
     @Column(name = "timestamp")
     private Date timestamp;
-
-
 }

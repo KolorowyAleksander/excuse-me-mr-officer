@@ -7,10 +7,9 @@ import com.datastax.driver.mapping.MappingManager;
 public class Main {
 
     public static void main(String[] args) {
-//        Cluster cluster = Cluster.builder().addContactPoints(Config.nodes).build();
-//        Session session = cluster.connect();
-//        MappingManager mappingManager = new MappingManager(session);
-        MappingManager mappingManager = null;
+        Cluster cluster = Cluster.builder().addContactPoints(Config.nodes).build();
+        Session session = cluster.connect();
+        MappingManager mappingManager = new MappingManager(session);
         final int numberOfOfficers = Config.numberOfOfficers;
         Officer[] officers = new Officer[numberOfOfficers];
         Thread[] threads = new Thread[numberOfOfficers];
@@ -27,5 +26,8 @@ public class Main {
                 System.out.println(e.getMessage());
             }
         }
+
+        session.close();
+        cluster.close();
     }
 }

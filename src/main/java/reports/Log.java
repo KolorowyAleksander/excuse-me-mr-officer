@@ -13,7 +13,13 @@ interface LogAccessor {
     Result<Log> selectAll();
 }
 
-@Table(name = Log.tableName, readConsistency = Constants.CONSISTENCY_ONE, writeConsistency = Constants.CONSISTENCY_ONE)
+
+@Table(
+        keyspace = Config.keyspace,
+        name = Log.tableName,
+        readConsistency = Constants.CONSISTENCY_ONE,
+        writeConsistency = Constants.CONSISTENCY_ONE
+)
 @NoArgsConstructor
 @Data
 public class Log {
