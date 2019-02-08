@@ -2,6 +2,8 @@ package reports;
 
 import com.datastax.driver.mapping.Result;
 import com.datastax.driver.mapping.annotations.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -12,6 +14,8 @@ interface LogAccessor {
 }
 
 @Table(name = Log.tableName, readConsistency = Config.CONSISTENCY_ONE, writeConsistency = Config.CONSISTENCY_ONE)
+@NoArgsConstructor
+@Data
 public class Log {
     static final String tableName = "logs";
 

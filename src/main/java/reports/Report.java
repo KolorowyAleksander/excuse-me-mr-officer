@@ -2,6 +2,8 @@ package reports;
 
 import com.datastax.driver.mapping.Result;
 import com.datastax.driver.mapping.annotations.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Accessor
 interface ReportAccessor {
@@ -9,7 +11,10 @@ interface ReportAccessor {
     Result<Report> selectAll();
 }
 
+
 @Table(name = Report.tableName, readConsistency = Config.CONSISTENCY_ONE, writeConsistency = Config.CONSISTENCY_ONE)
+@NoArgsConstructor
+@Data
 public class Report {
     static final String tableName = "reports";
 
