@@ -12,7 +12,7 @@ interface ReportAccessor {
 }
 
 
-@Table(name = Report.tableName, readConsistency = Config.CONSISTENCY_ONE, writeConsistency = Config.CONSISTENCY_ONE)
+@Table(name = Report.tableName, readConsistency = Constants.CONSISTENCY_ONE, writeConsistency = Constants.CONSISTENCY_ONE)
 @NoArgsConstructor
 @Data
 public class Report {
