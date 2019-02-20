@@ -5,6 +5,7 @@ import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Officer implements Runnable {
@@ -72,10 +73,11 @@ public class Officer implements Runnable {
                 new Tuple2(this.positionX + 1, this.positionY),
                 new Tuple2(this.positionX - 1, this.positionY)
         )
-                .map(p -> new Tuple3(p.x, p.y, Math.sqrt(Math.pow(p.x - a, 2) + Math.pow(p.y - b, 2))))
+                .map(p -> new Tuple3(p.x, p.y, countDistance(p.x, p.y, a, b)))
                 .min(Comparator.comparing(Tuple3::getDistance))
                 .orElseThrow(RuntimeException::new);
 
+        // update current position
         this.positionX = t.x;
         this.positionY = t.y;
 
@@ -93,6 +95,11 @@ public class Officer implements Runnable {
 
     private Lock lockAReport() {
         List<Report> reports = Report.selectAll(this.mappingManager);
+        int a = this.positionX;
+        int b = this.positionY;
+
+        // sort the list of reports by distance from current position
+        reports = sortByDistance(reports, a, b);
 
         for (Report r : reports) {
             Mapper<Lock> lockMapper = this.mappingManager.mapper(Lock.class);
@@ -112,5 +119,19 @@ public class Officer implements Runnable {
 
         // no reports left without a lock - job finished
         return null;
+    }
+
+    // sort list of reports by distance from (a,b)
+    private static List<Report> sortByDistance(List<Report> reports, int a, int b) {
+        return reports.stream()
+                .map(r -> new ReportTuple(r, countDistance(a, b, r.getPositionX(), r.getPositionY())))
+                .sorted(Comparator.comparing(ReportTuple::getDistance))
+                .map(t -> t.r)
+                .collect(Collectors.toList());
+    }
+
+    // count distance between (a,b) and (x,y)
+    private static double countDistance(int a, int b, int x, int y) {
+        return Math.sqrt(Math.pow(x - a, 2) + Math.pow(y - b, 2));
     }
 }
