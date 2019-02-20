@@ -12,7 +12,6 @@ public class Officer implements Runnable {
     private Lock currentLock;
 
     private int positionX, positionY;
-    private int maxSpeed;
 
     private MappingManager mappingManager;
 
@@ -23,11 +22,9 @@ public class Officer implements Runnable {
 
         this.id = UUID.randomUUID().toString();
 
-
         final Random random = new Random();
         this.positionX = random.nextInt(Config.mapWidth);
         this.positionY = random.nextInt(Config.mapHeight);
-        this.maxSpeed = 1;
     }
 
     public void run() {
@@ -61,17 +58,19 @@ public class Officer implements Runnable {
 
     private void moveTowardsLockedReport() {
         // find where current report is
-        Report currentReport = Report.selectOne(this.mappingManager, this.currentLock.getReportId());
+        Mapper<Report> reportMapper = mappingManager.mapper(Report.class);
+        Report currentReport = reportMapper.get(this.currentLock.getReportId());
+
         int a = currentReport.getPositionX();
         int b = currentReport.getPositionY();
 
         // count which move will take me closer to current Report
         // this throws if it's coded wrong
         Tuple3 t = Stream.of(
-                new Tuple2(this.positionX + 0, this.positionY + 1),
-                new Tuple2(this.positionX + 0, this.positionY - 1),
-                new Tuple2(this.positionX + 1, this.positionY + 0),
-                new Tuple2(this.positionX - 1, this.positionY + 0)
+                new Tuple2(this.positionX, this.positionY + 1),
+                new Tuple2(this.positionX, this.positionY - 1),
+                new Tuple2(this.positionX + 1, this.positionY),
+                new Tuple2(this.positionX - 1, this.positionY)
         )
                 .map(p -> new Tuple3(p.x, p.y, Math.sqrt(Math.pow(p.x - a, 2) + Math.pow(p.y - b, 2))))
                 .min(Comparator.comparing(Tuple3::getDistance))
@@ -96,7 +95,9 @@ public class Officer implements Runnable {
         List<Report> reports = Report.selectAll(this.mappingManager);
 
         for (Report r : reports) {
-            if (Lock.selectOne(this.mappingManager, r.getId()) == null) {
+            Mapper<Lock> lockMapper = this.mappingManager.mapper(Lock.class);
+
+            if (lockMapper.get(r.getId()) == null) {
                 // lock a new Report for myself
                 Lock lock = new Lock();
                 lock.setOfficerId(this.id);

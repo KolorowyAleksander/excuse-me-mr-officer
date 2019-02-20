@@ -12,10 +12,6 @@ import java.util.UUID;
 
 @Accessor
 interface ReportAccessor {
-    @Query("SELECT * FROM " + Config.keyspace + "." + Report.tableName
-            + " WHERE " + Report.idColumnName + "= (?)")
-    Result<Report> selectByReportId(String reportID);
-
     @Query("SELECT * FROM " + Config.keyspace + "." + Report.tableName)
     Result<Report> selectAll();
 }
@@ -42,11 +38,6 @@ public class Report {
 
     @Column(name = "y")
     private int positionY;
-
-    public static Report selectOne(MappingManager mm, String reportID) {
-        ReportAccessor reportAccessor = mm.createAccessor(ReportAccessor.class);
-        return reportAccessor.selectByReportId(reportID).one();
-    }
 
     public static List<Report> selectAll(MappingManager mappingManager) {
         ReportAccessor reportAccessor = mappingManager.createAccessor(ReportAccessor.class);

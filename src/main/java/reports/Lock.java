@@ -11,11 +11,8 @@ import java.util.List;
 
 @Accessor
 interface LockAccessor {
-    @Query("SELECT * FROM " + Lock.tableName + " WHERE " + Lock.reportIdColumnName + "= (?)")
+    @Query("SELECT * FROM " + Config.keyspace + "." + Lock.tableName + " WHERE " + Lock.reportIdColumnName + "= (?)")
     Result<Lock> selectByReportId(String reportId);
-
-    @Query("SELECT * FROM " + Lock.tableName)
-    Result<Lock> selectAll();
 }
 
 @Table(
