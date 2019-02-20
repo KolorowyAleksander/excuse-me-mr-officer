@@ -3,6 +3,7 @@ package reports;
 import com.datastax.driver.mapping.MappingManager;
 import com.datastax.driver.mapping.Result;
 import com.datastax.driver.mapping.annotations.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,7 @@ interface ReportAccessor {
         writeConsistency = Constants.CONSISTENCY_ONE
 )
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class Report {
     static final String tableName = "reports";

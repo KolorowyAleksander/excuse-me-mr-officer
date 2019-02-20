@@ -122,7 +122,7 @@ public class Officer implements Runnable {
     }
 
     // sort list of reports by distance from (a,b)
-    private static List<Report> sortByDistance(List<Report> reports, int a, int b) {
+    public static List<Report> sortByDistance(List<Report> reports, int a, int b) {
         return reports.stream()
                 .map(r -> new ReportTuple(r, countDistance(a, b, r.getPositionX(), r.getPositionY())))
                 .sorted(Comparator.comparing(ReportTuple::getDistance))
