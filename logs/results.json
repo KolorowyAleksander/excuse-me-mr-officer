@@ -1,6 +1,14 @@
 {
   "noPartition": [
     {
+      "numberOfOfficers": 1,
+      "collisions": 0.0
+    },
+    {
+      "numberOfOfficers": 3,
+      "collisions": 0.0
+    },
+    {
       "numberOfOfficers": 5,
       "collisions": 0.0
     },
@@ -38,6 +46,14 @@
     }
   ],
   "partition": [
+    {
+      "numberOfOfficers": 1,
+      "collisions": 0.0
+    },
+    {
+      "numberOfOfficers": 3,
+      "collisions": 0.35
+    },
     {
       "numberOfOfficers": 5,
       "collisions": 0.7
