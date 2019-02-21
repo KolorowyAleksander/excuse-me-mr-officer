@@ -46,12 +46,12 @@ public class Report {
         return reportAccessor.selectAll().all();
     }
 
-    public static Report createRandom() {
+    public static Report createRandom(int mapWidth, int mapHeight) {
         Random random = new Random();
         Report r = new Report();
 
-        r.positionX = random.nextInt(Config.mapWidth);
-        r.positionY = random.nextInt(Config.mapWidth);
+        r.positionX = random.nextInt(mapWidth);
+        r.positionY = random.nextInt(mapHeight);
         r.id = UUID.randomUUID().toString();
 
         return r;

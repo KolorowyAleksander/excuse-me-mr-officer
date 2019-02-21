@@ -16,19 +16,20 @@ public class Officer implements Runnable {
 
     private MappingManager mappingManager;
 
-    private static int WAIT_TIME = 100;
+    private long waitTime;
 
     private List<Report> sortedReports;
     private Report currentReport;
 
-    Officer(MappingManager mappingManager) {
+    Officer(MappingManager mappingManager, int mapWidth, int mapHeight, long waitTime) {
         this.mappingManager = mappingManager;
+        this.waitTime = waitTime;
 
         this.id = UUID.randomUUID().toString();
 
         final Random random = new Random();
-        this.positionX = random.nextInt(Config.mapWidth);
-        this.positionY = random.nextInt(Config.mapHeight);
+        this.positionX = random.nextInt(mapWidth);
+        this.positionY = random.nextInt(mapHeight);
     }
 
     public void run() {
@@ -56,7 +57,7 @@ public class Officer implements Runnable {
 
             // wait for the next round
             try {
-                Thread.sleep(WAIT_TIME);
+                Thread.sleep(this.waitTime);
             } catch (InterruptedException ignored) {
             }
         }
@@ -97,7 +98,7 @@ public class Officer implements Runnable {
             this.currentLock = null;
 
             try {
-                Thread.sleep(WAIT_TIME);
+                Thread.sleep(this.waitTime);
             } catch (InterruptedException ignored) {
             }
         }

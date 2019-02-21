@@ -4,23 +4,35 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
+import config.PropertiesGetter;
+
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Cluster cluster = Cluster.builder().addContactPoints(Config.nodes).build();
+    public static void main(String[] args) throws IOException {
+        String propertiesFileName = "config.properties";
+        if (args.length > 0) {
+            propertiesFileName = args[0];
+        }
+        PropertiesGetter properties = new PropertiesGetter(propertiesFileName);
+
+        Cluster cluster = Cluster.builder().addContactPoints(properties.getNodesList()).build();
         Session session = cluster.connect();
         MappingManager mappingManager = new MappingManager(session);
 
         // creating instance
-        createInstance(10, mappingManager);
+        int mapWidth = properties.getMapWidth();
+        int mapHeight = properties.getMapHeight();
+        createInstance(properties.getNumberOfReports(), mapWidth, mapHeight, mappingManager);
 
         // stating worker threads
-        final int numberOfOfficers = Config.numberOfOfficers;
+        final int numberOfOfficers = properties.getNumberOfOfficers();
+        final long waitTime = properties.getWaitTime();
         Officer[] officers = new Officer[numberOfOfficers];
         Thread[] threads = new Thread[numberOfOfficers];
         for (int i = 0; i < numberOfOfficers; i++) {
-            officers[i] = new Officer(mappingManager);
+            officers[i] = new Officer(mappingManager, mapWidth, mapHeight, waitTime);
             threads[i] = new Thread(officers[i]);
             threads[i].start();
         }
@@ -37,11 +49,11 @@ public class Main {
         cluster.close();
     }
 
-    private static void createInstance(int instanceSize, MappingManager mm) {
+    private static void createInstance(int instanceSize, int mapWidth, int mapHeight, MappingManager mm) {
         Mapper<Report> m = mm.mapper(Report.class);
 
         for (int i = 0; i < instanceSize; i++) {
-            Report r = Report.createRandom();
+            Report r = Report.createRandom(mapWidth, mapHeight);
             m.save(r);
         }
 
