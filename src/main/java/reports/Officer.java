@@ -84,6 +84,15 @@ public class Officer implements Runnable {
         if (t.x == a && t.y == b) {
             // arrived at the current report
             System.out.println(this.id + " arrived a the current report: " + this.currentLock.getReportId());
+
+            Log log = new Log();
+            log.setOfficerId(this.id);
+            log.setReportId(this.currentLock.getReportId());
+            log.setDeparture(this.currentLock.getTimestamp());
+            log.setArrival(new Date());
+            Mapper<Log> mapper = this.mappingManager.mapper(Log.class);
+            mapper.save(log);
+
             this.currentLock = null;
 
             try {

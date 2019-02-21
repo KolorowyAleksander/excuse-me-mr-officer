@@ -21,8 +21,9 @@ create table if not exists Locks
 
 create table if not exists Logs
 (
-  officerID varchar PRIMARY KEY,
+  officerID varchar,
   reportID  varchar,
   departure timestamp,
-  arrival timestamp
+  arrival timestamp,
+  PRIMARY KEY (reportID, officerID)
 );

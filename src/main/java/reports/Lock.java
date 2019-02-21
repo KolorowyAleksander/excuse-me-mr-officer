@@ -32,7 +32,7 @@ public class Lock {
     @Column(name = reportIdColumnName)
     private String reportId;
 
-    @Column(name = "officerId")
+    @Column(name = "officerID")
     private String officerId;
 
     @Column(name = "timestamp")
