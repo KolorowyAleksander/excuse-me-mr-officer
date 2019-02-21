@@ -18,6 +18,9 @@ public class Officer implements Runnable {
 
     private static int WAIT_TIME = 100;
 
+    private List<Report> sortedReports;
+    private Report currentReport;
+
     Officer(MappingManager mappingManager) {
         this.mappingManager = mappingManager;
 
@@ -29,6 +32,8 @@ public class Officer implements Runnable {
     }
 
     public void run() {
+        this.sortedReports = Report.selectAll(this.mappingManager);
+
         while (true) {
             System.out.println(this.id + " current position: " + this.positionX + " " + this.positionY);
             // check if still job to do
@@ -58,12 +63,8 @@ public class Officer implements Runnable {
     }
 
     private void moveTowardsLockedReport() {
-        // find where current report is
-        Mapper<Report> reportMapper = mappingManager.mapper(Report.class);
-        Report currentReport = reportMapper.get(this.currentLock.getReportId());
-
-        int a = currentReport.getPositionX();
-        int b = currentReport.getPositionY();
+        int a = this.currentReport.getPositionX();
+        int b = this.currentReport.getPositionY();
 
         // count which move will take me closer to current Report
         // this throws if it's coded wrong
@@ -103,17 +104,21 @@ public class Officer implements Runnable {
     }
 
     private Lock lockAReport() {
-        List<Report> reports = Report.selectAll(this.mappingManager);
         int a = this.positionX;
         int b = this.positionY;
 
         // sort the list of reports by distance from current position
-        reports = sortByDistance(reports, a, b);
+        this.sortedReports = sortByDistance(this.sortedReports, a, b);
 
-        for (Report r : reports) {
+        Iterator<Report> iterator = this.sortedReports.iterator();
+
+        while (iterator.hasNext()) {
+            Report r = iterator.next();
+
             Mapper<Lock> lockMapper = this.mappingManager.mapper(Lock.class);
 
             if (lockMapper.get(r.getId()) == null) {
+                this.currentReport = r;
                 // lock a new Report for myself
                 Lock lock = new Lock();
                 lock.setOfficerId(this.id);
@@ -124,6 +129,8 @@ public class Officer implements Runnable {
                 m.save(lock);
                 return lock;
             }
+
+            iterator.remove();
         }
 
         // no reports left without a lock - job finished
