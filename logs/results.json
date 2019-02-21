@@ -1,0 +1,78 @@
+{
+  "noPartition": [
+    {
+      "numberOfOfficers": 5,
+      "collisions": 0.0
+    },
+    {
+      "numberOfOfficers": 6,
+      "collisions": 0.0
+    },
+    {
+      "numberOfOfficers": 7,
+      "collisions": 0.01
+    },
+    {
+      "numberOfOfficers": 8,
+      "collisions": 0.01
+    },
+    {
+      "numberOfOfficers": 9,
+      "collisions": 0.01
+    },
+    {
+      "numberOfOfficers": 10,
+      "collisions": 0.01
+    },
+    {
+      "numberOfOfficers": 15,
+      "collisions": 0.01
+    },
+    {
+      "numberOfOfficers": 20,
+      "collisions": 0.02
+    },
+    {
+      "numberOfOfficers": 25,
+      "collisions": 0.03
+    }
+  ],
+  "partition": [
+    {
+      "numberOfOfficers": 5,
+      "collisions": 0.7
+    },
+    {
+      "numberOfOfficers": 6,
+      "collisions": 0.8
+    },
+    {
+      "numberOfOfficers": 7,
+      "collisions": 0.93
+    },
+    {
+      "numberOfOfficers": 8,
+      "collisions": 0.97
+    },
+    {
+      "numberOfOfficers": 9,
+      "collisions": 0.96
+    },
+    {
+      "numberOfOfficers": 10,
+      "collisions": 0.87
+    },
+    {
+      "numberOfOfficers": 15,
+      "collisions": 0.42
+    },
+    {
+      "numberOfOfficers": 20,
+      "collisions": 0.37
+    },
+    {
+      "numberOfOfficers": 25,
+      "collisions": 0.31
+    }
+  ]
+}
