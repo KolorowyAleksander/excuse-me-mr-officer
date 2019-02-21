@@ -24,7 +24,6 @@ public class Main {
         // creating instance
         int mapWidth = properties.getMapWidth();
         int mapHeight = properties.getMapHeight();
-        createInstance(properties.getNumberOfReports(), mapWidth, mapHeight, mappingManager);
 
         // stating worker threads
         final int numberOfOfficers = properties.getNumberOfOfficers();

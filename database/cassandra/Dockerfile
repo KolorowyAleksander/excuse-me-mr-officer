@@ -10,5 +10,3 @@ ADD database-schema.cql /cassandra
 ADD database-schema.sh /cassandra
 ADD truncate-database.cql /cassandra
 ADD truncate-database.sh /cassandra
-
-ENTRYPOINT ["bash", "/usr/bin/modified-entrypoint.sh"]
